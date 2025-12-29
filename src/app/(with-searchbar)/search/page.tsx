@@ -1,5 +1,5 @@
 import { Grid, MovieItem } from "@/components";
-import movies from "@/dummy.json";
+import { MovieData } from "@/types";
 
 interface PageProps {
   searchParams: Promise<{ q: string }>;
@@ -7,7 +7,15 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const { q } = await searchParams;
-  console.log("searchParams >>>", q);
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/search?q=${q}`,
+    { next: { revalidate: 60 * 60 * 24 } }
+  );
+
+  if (!response.ok) return <div>오류 발생</div>;
+
+  const movies: MovieData[] = await response.json();
 
   return (
     <Grid>

@@ -1,5 +1,4 @@
 import { MovieData } from "@/types";
-import movies from "@/dummy.json";
 import styles from "./page.module.css";
 
 interface PageProps {
@@ -7,7 +6,16 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const movie: MovieData = movies[16];
+  const { id } = await params;
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${id}`,
+    { next: { revalidate: 60 * 60 * 24 } }
+  );
+
+  if (!response.ok) return <div>오류 발생</div>;
+
+  const movie: MovieData = await response.json();
 
   if (!movie) return null;
 
@@ -21,9 +29,6 @@ export default async function Page({ params }: PageProps) {
     runtime,
     posterImgUrl,
   } = movie;
-
-  const { id } = await params;
-  console.log("ID >>>", id);
 
   return (
     <div className={styles.container}>
