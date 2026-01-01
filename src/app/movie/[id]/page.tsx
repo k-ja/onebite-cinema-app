@@ -1,8 +1,13 @@
 import { MovieData } from "@/types";
 import styles from "./page.module.css";
+import NotFound from "@/app/not-found";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export function generateStaticParams() {
+  return [{ id: "1" }, { id: "2" }, { id: "3" }];
 }
 
 export default async function Page({ params }: PageProps) {
@@ -13,7 +18,10 @@ export default async function Page({ params }: PageProps) {
     { next: { revalidate: 60 * 60 * 24 } }
   );
 
-  if (!response.ok) return <div>오류 발생</div>;
+  if (!response.ok) {
+    if (response.status === 404) return NotFound();
+    return <div>오류 발생</div>;
+  }
 
   const movie: MovieData = await response.json();
 

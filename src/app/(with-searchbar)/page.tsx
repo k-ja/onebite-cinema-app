@@ -1,8 +1,13 @@
 import { Grid, MovieItem } from "@/components";
 import styles from "./page.module.css";
 import { MovieData } from "@/types";
+import { Suspense } from "react";
+import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
+import delay from "../util/delay";
 
 async function AllMovies() {
+  await delay(2000);
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`,
     { next: { revalidate: 60 * 60 * 24 } }
@@ -22,6 +27,8 @@ async function AllMovies() {
 }
 
 async function RecoMovies() {
+  await delay(1500);
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/random`,
     { next: { revalidate: 60 * 60 } }
@@ -45,11 +52,15 @@ export default function Home() {
     <div className={styles.conatiner}>
       <section>
         <h2>지금 가장 추천하는 영화</h2>
-        <RecoMovies />
+        <Suspense fallback={<MovieListSkeleton count={3} />}>
+          <RecoMovies />
+        </Suspense>
       </section>
       <section>
         <h2>등록된 모든 영화</h2>
-        <AllMovies />
+        <Suspense fallback={<MovieListSkeleton count={10} />}>
+          <AllMovies />
+        </Suspense>
       </section>
     </div>
   );
