@@ -1,5 +1,6 @@
 import { ReviewData } from "@/types";
 import styles from "./review-item.module.css";
+import ReviewItemDeleteButton from "./review-item-delete-button";
 
 export default async function ReviewItem({
   id,
@@ -15,9 +16,9 @@ export default async function ReviewItem({
         <div className={styles.author}>{createdAt}</div>
       </div>
       <div className={styles.content}>{content}</div>
-      <button type="button" className={styles.btnDelete}>
-        리뷰 삭제
-      </button>
+      <div className={styles.btnDelete}>
+        <ReviewItemDeleteButton reviewId={id} movieId={movieId} />
+      </div>
     </div>
   );
 }
