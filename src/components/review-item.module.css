@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-block: 15px;
+}
+.author {
+  font-size: 14px;
+}
+.topContainer {
+  display: flex;
+  gap: 10px;
+  color: gray;
+  font-size: 14px;
+}
+.btnDelete {
+  padding: 0;
+  background: none;
+  border: none;
+  color: gray;
+  text-align: left;
+  cursor: pointer;
+}
