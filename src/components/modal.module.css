@@ -1,0 +1,11 @@
+.container {
+  width: 80%;
+  max-width: 500px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.container::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+}

@@ -4,8 +4,10 @@ import styles from "./layout.module.css";
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -18,6 +20,8 @@ export default function RootLayout({
           </header>
           <main>{children}</main>
         </div>
+        {modal}
+        <div id="modal-root"></div>
       </body>
     </html>
   );
